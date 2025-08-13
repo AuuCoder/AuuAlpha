@@ -6,20 +6,19 @@ export const Logo: React.FC<IconSvgProps> = ({
   size = 36,
   width,
   height,
+  color = "white",
   ...props
 }) => (
   <svg
+    width="125"
+    height="13"
+    viewBox="0 0 125 13"
     fill="none"
-    height={size || height}
-    viewBox="0 0 32 32"
-    width={size || width}
-    {...props}
+    xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      clipRule="evenodd"
-      d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
-      fill="currentColor"
-      fillRule="evenodd"
+      d="M0 12.25V3.5H1.75V1.75H3.5V0H8.75V1.75H10.5V3.5H12.25V12.25H8.75V8.75H3.5V12.25H0ZM3.5 7H8.75V3.5H7V1.75H5.25V3.5H3.5V7ZM15.75 12.25V10.5H14V3.5H17.5V10.5H22.75V3.5H26.25V12.25H15.75ZM29.75 12.25V10.5H28V3.5H31.5V10.5H36.75V3.5H40.25V12.25H29.75ZM42 12.25V0H54.25V1.75H45.5V5.25H52.5V7H45.5V12.25H42ZM57.75 12.25V10.5H56V8.75H57.75V7H64.75V5.25H57.75V3.5H66.5V5.25H68.25V12.25H57.75ZM59.5 10.5H64.75V8.75H59.5V10.5ZM70 12.25V10.5H78.75V8.75H71.75V7H70V5.25H71.75V3.5H80.5V5.25H73.5V7H80.5V8.75H82.25V10.5H80.5V12.25H70ZM89.25 12.25V5.25H85.75V3.5H89.25V0H92.75V3.5H96.25V5.25H92.75V12.25H89.25ZM99.75 12.25V10.5H98V5.25H99.75V3.5H108.5V5.25H110.25V8.75H101.5V10.5H108.5V12.25H99.75ZM101.5 7H106.75V5.25H101.5V7ZM117.25 5.25H119V7H117.25V12.25H113.75V3.5H117.25V5.25ZM124.25 3.5V5.25H119V3.5H124.25Z"
+      fill={color}
     />
   </svg>
 );
@@ -154,34 +153,6 @@ export const HeartFilledIcon = ({
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-    />
-  </svg>
-);
-
-export const SearchIcon = (props: IconSvgProps) => (
-  <svg
-    aria-hidden="true"
-    fill="none"
-    focusable="false"
-    height="1em"
-    role="presentation"
-    viewBox="0 0 24 24"
-    width="1em"
-    {...props}
-  >
-    <path
-      d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-    />
-    <path
-      d="M22 22L20 20"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
     />
   </svg>
 );
