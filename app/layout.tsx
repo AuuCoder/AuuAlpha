@@ -1,8 +1,10 @@
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
-import { Link } from "@heroui/link";
+import { headers } from "next/headers";
+import { getLocale, getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 import clsx from "clsx";
-
+import ContextProvider from "@/components/appkitProvider";
 import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
@@ -30,13 +32,17 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+  const resolvedHeaders = await headers();
+  const cookies = resolvedHeaders.get("cookie");
   return (
-    <html suppressHydrationWarning lang="en">
+    <html suppressHydrationWarning lang={locale}>
       <head />
       <body
         className={clsx(
@@ -44,15 +50,19 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          <CottonCloudBackground />
-          <div className="relative flex flex-col h-screen z-10">
-            <Navbar />
-            <main className="container mx-auto max-w-7xl pt-4 px-6 flex-grow relative">
-              {children}
-            </main>
-          </div>
-        </Providers>
+        <ContextProvider cookies={cookies}>
+          <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+            <NextIntlClientProvider messages={messages}>
+              <CottonCloudBackground />
+              <div className="relative flex flex-col h-screen z-10">
+                <Navbar />
+                <main className="container mx-auto max-w-7xl pt-4 px-6 flex-grow relative">
+                  {children}
+                </main>
+              </div>
+            </NextIntlClientProvider>
+          </Providers>
+        </ContextProvider>
       </body>
     </html>
   );

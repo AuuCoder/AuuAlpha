@@ -32,141 +32,151 @@ export function CottonCloudBackground() {
     setCottonClouds(clouds);
   }, []);
 
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <div
       className="fixed inset-0 overflow-hidden pointer-events-none"
       style={{
-        zIndex: -999,
+        zIndex: 1,
         width: "100vw",
         height: "100vh",
         left: 0,
         top: 0,
       }}
     >
-      {/* 基础渐变背景 */}
-      <div
-        className={`absolute inset-0 w-full h-full transition-all duration-1000 ${
-          theme === "dark"
-            ? "bg-transparent"
-            : "bg-gradient-to-br from-blue-50 via-white to-purple-50"
-        }`}
-      />
-
-      {/* 大型棉花团效果 */}
-      {cottonClouds.map((cloud) => {
-        const animationType =
-          cloud.id % 3 === 0 ? "float" : cloud.id % 3 === 1 ? "drift" : "morph";
-        return (
+      {mounted && theme !== "dark" && (
+        <>
+          {/* 基础渐变背景 */}
           <div
-            key={cloud.id}
-            className={`absolute blur-3xl opacity-50 ${
+            className={`absolute inset-0 w-full h-full transition-all duration-1000 ${
               theme === "dark"
-                ? [
-                    "bg-gradient-to-br from-blue-500/25 via-indigo-500/20 to-purple-500/25",
-                    "bg-gradient-to-br from-purple-500/20 via-blue-500/15 to-indigo-500/20",
-                    "bg-gradient-to-br from-indigo-500/25 via-purple-500/20 to-blue-500/25",
-                    "bg-gradient-to-br from-slate-500/20 via-gray-500/15 to-slate-500/20",
-                    "bg-gradient-to-br from-gray-500/25 via-slate-500/20 to-gray-500/25",
-                    "bg-gradient-to-br from-blue-400/20 via-slate-400/15 to-indigo-400/20",
-                  ][cloud.id % 6]
-                : [
-                    "bg-gradient-to-br from-blue-300/50 via-purple-300/40 to-pink-300/50",
-                    "bg-gradient-to-br from-purple-300/45 via-indigo-300/35 to-blue-300/45",
-                    "bg-gradient-to-br from-pink-300/50 via-purple-300/40 to-indigo-300/50",
-                    "bg-gradient-to-br from-indigo-300/45 via-blue-300/35 to-purple-300/45",
-                    "bg-gradient-to-br from-violet-300/50 via-purple-300/40 to-blue-300/50",
-                    "bg-gradient-to-br from-cyan-300/45 via-blue-300/35 to-indigo-300/45",
-                  ][cloud.id % 6]
+                ? "bg-black"
+                : "bg-gradient-to-br from-blue-50 via-white to-purple-50"
             }`}
-            style={{
-              width: `${cloud.size}px`,
-              height: `${cloud.size}px`,
-              left: `${cloud.x}%`,
-              top: `${cloud.y}%`,
-              animation: `${animationType} ${cloud.duration}s ease-in-out infinite`,
-              animationDelay: `${cloud.delay}s`,
-              transform: `translate(-50%, -50%)`,
-              borderRadius:
-                cloud.id % 2 === 0 ? "50% 40% 60% 30%" : "40% 60% 30% 70%",
-            }}
           />
-        );
-      })}
 
-      {/* 中型棉花团 */}
-      {Array.from({ length: 15 }, (_, i) => {
-        const size = 60 + i * 4; // 固定尺寸避免每次渲染都变化
-        const x = (i * 23) % 100; // 固定位置
-        const y = (i * 37) % 100;
-        const duration = 12 + (i % 6);
-        const delay = i * 0.5;
-        const animationType = i % 2 === 0 ? "float" : "drift";
+          {/* 大型棉花团效果 */}
+          {cottonClouds.map((cloud) => {
+            const animationType =
+              cloud.id % 3 === 0
+                ? "float"
+                : cloud.id % 3 === 1
+                  ? "drift"
+                  : "morph";
+            return (
+              <div
+                key={cloud.id}
+                className={`absolute blur-3xl ${
+                  theme === "dark" ? "opacity-50" : "opacity-60"
+                } ${
+                  theme === "dark"
+                    ? [
+                        "bg-gradient-to-br from-violet-500/40 via-purple-500/30 to-blue-500/35",
+                        "bg-gradient-to-br from-indigo-500/35 via-cyan-500/25 to-purple-500/30",
+                        "bg-gradient-to-br from-blue-500/40 via-indigo-500/30 to-violet-500/35",
+                        "bg-gradient-to-br from-purple-500/35 via-pink-500/25 to-indigo-500/30",
+                        "bg-gradient-to-br from-cyan-500/40 via-blue-500/30 to-purple-500/35",
+                        "bg-gradient-to-br from-pink-500/35 via-violet-500/25 to-cyan-500/30",
+                      ][cloud.id % 6]
+                    : [
+                        "bg-gradient-to-br from-blue-300/60 via-purple-300/50 to-pink-300/60",
+                        "bg-gradient-to-br from-purple-300/55 via-indigo-300/45 to-blue-300/55",
+                        "bg-gradient-to-br from-pink-300/60 via-purple-300/50 to-indigo-300/60",
+                        "bg-gradient-to-br from-indigo-300/55 via-blue-300/45 to-purple-300/55",
+                        "bg-gradient-to-br from-violet-300/60 via-purple-300/50 to-blue-300/60",
+                        "bg-gradient-to-br from-cyan-300/55 via-blue-300/45 to-indigo-300/55",
+                      ][cloud.id % 6]
+                }`}
+                style={{
+                  width: `${cloud.size}px`,
+                  height: `${cloud.size}px`,
+                  left: `${cloud.x}%`,
+                  top: `${cloud.y}%`,
+                  animation: `${animationType} ${cloud.duration}s ease-in-out infinite`,
+                  animationDelay: `${cloud.delay}s`,
+                  transform: `translate(-50%, -50%)`,
+                  borderRadius:
+                    cloud.id % 2 === 0 ? "50% 40% 60% 30%" : "40% 60% 30% 70%",
+                }}
+              />
+            );
+          })}
 
-        return (
-          <div
-            key={`medium-${i}`}
-            className={`absolute blur-2xl opacity-35 ${
-              theme === "dark"
-                ? [
-                    "bg-gradient-to-r from-blue-400/20 to-indigo-400/20",
-                    "bg-gradient-to-r from-slate-400/15 to-gray-400/15",
-                    "bg-gradient-to-r from-indigo-400/20 to-blue-400/20",
-                    "bg-gradient-to-r from-gray-400/15 to-slate-400/15",
-                  ][i % 4]
-                : [
-                    "bg-gradient-to-r from-blue-200/35 to-purple-200/35",
-                    "bg-gradient-to-r from-purple-200/30 to-pink-200/30",
-                    "bg-gradient-to-r from-indigo-200/35 to-blue-200/35",
-                    "bg-gradient-to-r from-pink-200/30 to-indigo-200/30",
-                  ][i % 4]
-            }`}
-            style={{
-              width: `${size}px`,
-              height: `${size}px`,
-              left: `${x}%`,
-              top: `${y}%`,
-              animation: `${animationType} ${duration}s ease-in-out infinite`,
-              animationDelay: `${delay}s`,
-              transform: `translate(-50%, -50%)`,
-              borderRadius: `${40 + (i % 3) * 10}% ${30 + (i % 4) * 15}% ${50 + (i % 2) * 10}% ${35 + (i % 5) * 10}%`,
-            }}
-          />
-        );
-      })}
+          {/* 中型棉花团 */}
+          {Array.from({ length: 15 }, (_, i) => {
+            const size = 60 + i * 4;
+            const x = (i * 23) % 100;
+            const y = (i * 37) % 100;
+            const duration = 12 + (i % 6);
+            const delay = i * 0.5;
+            const animationType = i % 2 === 0 ? "float" : "drift";
 
-      {/* 小型棉花团 */}
-      {Array.from({ length: 25 }, (_, i) => {
-        const size = 30 + (i % 8) * 4; // 固定尺寸
-        const x = (i * 17) % 100; // 固定位置
-        const y = (i * 29) % 100;
-        const duration = 8 + (i % 5);
-        const delay = i * 0.3;
+            return (
+              <div
+                key={`medium-${i}`}
+                className={`absolute blur-2xl ${
+                  theme === "dark" ? "opacity-35" : "opacity-45"
+                } ${
+                  theme === "dark"
+                    ? [
+                        "bg-gradient-to-r from-violet-400/30 to-purple-400/25",
+                        "bg-gradient-to-r from-cyan-400/25 to-blue-400/30",
+                        "bg-gradient-to-r from-pink-400/30 to-violet-400/25",
+                        "bg-gradient-to-r from-indigo-400/25 to-cyan-400/30",
+                      ][i % 4]
+                    : [
+                        "bg-gradient-to-r from-blue-200/45 to-purple-200/45",
+                        "bg-gradient-to-r from-purple-200/40 to-pink-200/40",
+                        "bg-gradient-to-r from-indigo-200/45 to-blue-200/45",
+                        "bg-gradient-to-r from-pink-200/40 to-indigo-200/40",
+                      ][i % 4]
+                }`}
+                style={{
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  left: `${x}%`,
+                  top: `${y}%`,
+                  animation: `${animationType} ${duration}s ease-in-out infinite`,
+                  animationDelay: `${delay}s`,
+                  transform: `translate(-50%, -50%)`,
+                  borderRadius: `${40 + (i % 3) * 10}% ${30 + (i % 4) * 15}% ${50 + (i % 2) * 10}% ${35 + (i % 5) * 10}%`,
+                }}
+              />
+            );
+          })}
 
-        return (
-          <div
-            key={`small-${i}`}
-            className={`absolute blur-xl opacity-25 ${
-              theme === "dark"
-                ? "bg-gradient-to-br from-blue-400/12 via-slate-400/8 to-indigo-400/12"
-                : "bg-gradient-to-br from-blue-200/25 via-purple-200/20 to-pink-200/25"
-            }`}
-            style={{
-              width: `${size}px`,
-              height: `${size}px`,
-              left: `${x}%`,
-              top: `${y}%`,
-              animation: `morph ${duration}s ease-in-out infinite`,
-              animationDelay: `${delay}s`,
-              transform: `translate(-50%, -50%)`,
-              borderRadius: `${45 + (i % 3) * 5}% ${35 + (i % 4) * 10}% ${55 + (i % 2) * 5}% ${40 + (i % 5) * 8}%`,
-            }}
-          />
-        );
-      })}
+          {/* 小型棉花团 */}
+          {Array.from({ length: 25 }, (_, i) => {
+            const size = 30 + (i % 8) * 4;
+            const x = (i * 17) % 100;
+            const y = (i * 29) % 100;
+            const duration = 8 + (i % 5);
+            const delay = i * 0.3;
+
+            return (
+              <div
+                key={`small-${i}`}
+                className={`absolute blur-xl ${
+                  theme === "dark" ? "opacity-25" : "opacity-35"
+                } ${
+                  theme === "dark"
+                    ? "bg-gradient-to-br from-violet-400/20 via-purple-400/15 to-cyan-400/18"
+                    : "bg-gradient-to-br from-blue-200/35 via-purple-200/30 to-pink-200/35"
+                }`}
+                style={{
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  left: `${x}%`,
+                  top: `${y}%`,
+                  animation: `morph ${duration}s ease-in-out infinite`,
+                  animationDelay: `${delay}s`,
+                  transform: `translate(-50%, -50%)`,
+                  borderRadius: `${45 + (i % 3) * 5}% ${35 + (i % 4) * 10}% ${55 + (i % 2) * 5}% ${40 + (i % 5) * 8}%`,
+                }}
+              />
+            );
+          })}
+        </>
+      )}
     </div>
   );
 }

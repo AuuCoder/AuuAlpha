@@ -8,19 +8,34 @@ import {
   NavbarBrand,
   NavbarItem,
 } from "@heroui/navbar";
-
+import IsLogin from "@/components/isLogin";
+import { useRef } from "react";
+import { Button } from "@heroui/button";
 import { useTheme } from "next-themes";
 import NextLink from "next/link";
-
+import { useAccount, useDisconnect } from "wagmi";
+import { modal } from "@/components/appkitProvider";
 import { ThemeSwitch } from "@/components/theme-switch";
+import LanguageSwitcher from "@/components/LangSwitch";
 import { Logo } from "@/components/icons";
+import { useTranslations } from "next-intl";
 
 export const Navbar = () => {
+  const t = useTranslations("NavBar");
+  const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const ref = useRef<HTMLButtonElement>(null);
   const { theme } = useTheme();
-
+  const handleClick = () => {
+    if (isConnected) {
+      disconnect();
+    } else {
+      modal.open();
+    }
+  };
   return (
     <HeroUINavbar
-      maxWidth="xl"
+      maxWidth="2xl"
       position="sticky"
       className="backdrop-blur-sm bg-transparent border-none"
       style={{ backgroundColor: "transparent" }}
@@ -39,6 +54,22 @@ export const Navbar = () => {
       >
         <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
+          <LanguageSwitcher />
+          {!isConnected ? (
+            <Button
+              ref={ref}
+              className="bg-black/10 dark:bg-white/10 
+              transition-all duration-200 cursor-pointer border border-transparent
+               hover:border-orange-400 hover:bg-white/10 text-sm font-normal p-4 w-24"
+              size="md"
+              variant="solid"
+              onPress={handleClick}
+            >
+              {t("Connect")}
+            </Button>
+          ) : (
+            <IsLogin />
+          )}
         </NavbarItem>
       </NavbarContent>
 

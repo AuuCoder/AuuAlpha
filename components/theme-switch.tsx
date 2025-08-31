@@ -42,9 +42,11 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
     <Component
       {...getBaseProps({
         className: clsx(
-          "px-px transition-opacity hover:opacity-80 cursor-pointer",
+          "transition-all duration-200 cursor-pointer",
+          "w-10 h-10 rounded-full bg-black/10 dark:bg-white/10",
+          "hover:border hover:bg-white/10 hover:border-orange-400 flex items-center justify-center",
           className,
-          classNames?.base,
+          classNames?.base
         ),
       })}
     >
@@ -56,17 +58,16 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
         className={slots.wrapper({
           class: clsx(
             [
-              "w-auto h-auto",
+              "w-10 h-10",
               "bg-transparent",
-              "rounded-lg",
+              "rounded-full",
               "flex items-center justify-center",
               "group-data-[selected=true]:bg-transparent",
               "!text-default-500",
-              "pt-px",
               "px-0",
               "mx-0",
             ],
-            classNames?.wrapper,
+            classNames?.wrapper
           ),
         })}
       >
