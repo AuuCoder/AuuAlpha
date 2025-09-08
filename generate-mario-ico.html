@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Mario ICO Generator</title>
+</head>
+<body>
+    <canvas id="marioCanvas" width="32" height="32" style="border: 1px solid #000; image-rendering: pixelated; width: 320px; height: 320px;"></canvas>
+    <br>
+    <button onclick="downloadICO()">Download ICO</button>
+    
+    <script>
+        const canvas = document.getElementById('marioCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 禁用抗锯齿，保持像素风格
+        ctx.imageSmoothingEnabled = false;
+        
+        function drawMario() {
+            // 清空画布
+            ctx.clearRect(0, 0, 32, 32);
+            
+            // 马里奥帽子 - 红色
+            ctx.fillStyle = '#FF0000';
+            ctx.fillRect(6, 2, 20, 8);
+            ctx.fillRect(4, 4, 24, 6);
+            
+            // 帽子上的M标志 - 白色
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(12, 4, 2, 2);
+            ctx.fillRect(14, 4, 2, 4);
+            ctx.fillRect(16, 4, 2, 2);
+            ctx.fillRect(18, 4, 2, 2);
+            
+            // 脸部 - 肌肤色
+            ctx.fillStyle = '#FFDBAC';
+            ctx.fillRect(6, 8, 20, 12);
+            
+            // 眼睛 - 黑色
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(10, 12, 2, 2);
+            ctx.fillRect(20, 12, 2, 2);
+            
+            // 鼻子 - 黑色
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(16, 14, 2, 2);
+            
+            // 胡子 - 黑色
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(12, 16, 2, 2);
+            ctx.fillRect(18, 16, 2, 2);
+            
+            // 身体 - 蓝色工装
+            ctx.fillStyle = '#0066FF';
+            ctx.fillRect(8, 20, 16, 8);
+            
+            // 肩带 - 黄色
+            ctx.fillStyle = '#FFDD00';
+            ctx.fillRect(10, 20, 2, 8);
+            ctx.fillRect(20, 20, 2, 8);
+            
+            // 工装扣子 - 黄色
+            ctx.fillStyle = '#FFDD00';
+            ctx.fillRect(12, 22, 2, 2);
+            ctx.fillRect(18, 22, 2, 2);
+            
+            // 手臂 - 肌肤色
+            ctx.fillStyle = '#FFDBAC';
+            ctx.fillRect(6, 22, 2, 4);
+            ctx.fillRect(24, 22, 2, 4);
+            
+            // 腿部 - 蓝色
+            ctx.fillStyle = '#0066FF';
+            ctx.fillRect(10, 28, 4, 4);
+            ctx.fillRect(18, 28, 4, 4);
+        }
+        
+        function downloadICO() {
+            // 创建不同尺寸的canvas
+            const sizes = [16, 32, 48];
+            const canvases = [];
+            
+            sizes.forEach(size => {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = size;
+                tempCanvas.height = size;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.imageSmoothingEnabled = false;
+                
+                // 缩放绘制马里奥
+                tempCtx.scale(size / 32, size / 32);
+                tempCtx.drawImage(canvas, 0, 0);
+                
+                canvases.push(tempCanvas);
+            });
+            
+            // 生成ICO文件数据
+            const icoData = generateICO(canvases);
+            
+            // 下载文件
+            const blob = new Blob([icoData], { type: 'image/x-icon' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'mario-favicon.ico';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function generateICO(canvases) {
+            // ICO文件头
+            const header = new ArrayBuffer(6);
+            const headerView = new DataView(header);
+            headerView.setUint16(0, 0, true); // 保留字段
+            headerView.setUint16(2, 1, true); // 类型：1 = ICO
+            headerView.setUint16(4, canvases.length, true); // 图像数量
+            
+            // 图像目录条目
+            const dirEntries = [];
+            let dataOffset = 6 + (canvases.length * 16);
+            
+            const imageData = [];
+            
+            canvases.forEach((canvas, index) => {
+                // 获取PNG数据
+                const dataURL = canvas.toDataURL('image/png');
+                const base64Data = dataURL.split(',')[1];
+                const binaryData = atob(base64Data);
+                const bytes = new Uint8Array(binaryData.length);
+                for (let i = 0; i < binaryData.length; i++) {
+                    bytes[i] = binaryData.charCodeAt(i);
+                }
+                
+                imageData.push(bytes);
+                
+                // 创建目录条目
+                const entry = new ArrayBuffer(16);
+                const entryView = new DataView(entry);
+                entryView.setUint8(0, canvas.width); // 宽度
+                entryView.setUint8(1, canvas.height); // 高度
+                entryView.setUint8(2, 0); // 颜色数（0 = 没有调色板）
+                entryView.setUint8(3, 0); // 保留字段
+                entryView.setUint16(4, 1, true); // 颜色平面数
+                entryView.setUint16(6, 32, true); // 每像素位数
+                entryView.setUint32(8, bytes.length, true); // 图像数据大小
+                entryView.setUint32(12, dataOffset, true); // 图像数据偏移
+                
+                dirEntries.push(entry);
+                dataOffset += bytes.length;
+            });
+            
+            // 组合所有数据
+            const totalSize = 6 + (canvases.length * 16) + imageData.reduce((sum, data) => sum + data.length, 0);
+            const result = new Uint8Array(totalSize);
+            let offset = 0;
+            
+            // 写入头部
+            result.set(new Uint8Array(header), offset);
+            offset += 6;
+            
+            // 写入目录条目
+            dirEntries.forEach(entry => {
+                result.set(new Uint8Array(entry), offset);
+                offset += 16;
+            });
+            
+            // 写入图像数据
+            imageData.forEach(data => {
+                result.set(data, offset);
+                offset += data.length;
+            });
+            
+            return result;
+        }
+        
+        // 绘制马里奥
+        drawMario();
+    </script>
+</body>
+</html>

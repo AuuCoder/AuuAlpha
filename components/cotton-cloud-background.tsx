@@ -49,7 +49,7 @@ export function CottonCloudBackground() {
           <div
             className={`absolute inset-0 w-full h-full transition-all duration-1000 ${
               theme === "dark"
-                ? "bg-black"
+                ? "bg-transparent"
                 : "bg-gradient-to-br from-blue-50 via-white to-purple-50"
             }`}
           />
@@ -66,24 +66,24 @@ export function CottonCloudBackground() {
               <div
                 key={cloud.id}
                 className={`absolute blur-3xl ${
-                  theme === "dark" ? "opacity-50" : "opacity-60"
+                  theme === "dark" ? "opacity-30" : "opacity-50"
                 } ${
                   theme === "dark"
                     ? [
-                        "bg-gradient-to-br from-violet-500/40 via-purple-500/30 to-blue-500/35",
-                        "bg-gradient-to-br from-indigo-500/35 via-cyan-500/25 to-purple-500/30",
-                        "bg-gradient-to-br from-blue-500/40 via-indigo-500/30 to-violet-500/35",
-                        "bg-gradient-to-br from-purple-500/35 via-pink-500/25 to-indigo-500/30",
-                        "bg-gradient-to-br from-cyan-500/40 via-blue-500/30 to-purple-500/35",
-                        "bg-gradient-to-br from-pink-500/35 via-violet-500/25 to-cyan-500/30",
+                        "bg-gradient-to-br from-slate-600/30 via-gray-600/25 to-slate-700/35",
+                        "bg-gradient-to-br from-gray-600/25 via-slate-600/30 to-gray-700/30",
+                        "bg-gradient-to-br from-slate-700/35 via-gray-700/30 to-slate-600/25",
+                        "bg-gradient-to-br from-gray-700/30 via-slate-700/25 to-gray-600/35",
+                        "bg-gradient-to-br from-slate-600/25 via-gray-600/35 to-slate-700/30",
+                        "bg-gradient-to-br from-gray-600/35 via-slate-600/30 to-gray-700/25",
                       ][cloud.id % 6]
                     : [
-                        "bg-gradient-to-br from-blue-300/60 via-purple-300/50 to-pink-300/60",
-                        "bg-gradient-to-br from-purple-300/55 via-indigo-300/45 to-blue-300/55",
-                        "bg-gradient-to-br from-pink-300/60 via-purple-300/50 to-indigo-300/60",
-                        "bg-gradient-to-br from-indigo-300/55 via-blue-300/45 to-purple-300/55",
-                        "bg-gradient-to-br from-violet-300/60 via-purple-300/50 to-blue-300/60",
-                        "bg-gradient-to-br from-cyan-300/55 via-blue-300/45 to-indigo-300/55",
+                        "bg-gradient-to-br from-blue-200/50 via-purple-200/40 to-pink-200/50",
+                        "bg-gradient-to-br from-purple-200/45 via-indigo-200/35 to-blue-200/45",
+                        "bg-gradient-to-br from-pink-200/50 via-purple-200/40 to-indigo-200/50",
+                        "bg-gradient-to-br from-indigo-200/45 via-blue-200/35 to-purple-200/45",
+                        "bg-gradient-to-br from-violet-200/50 via-purple-200/40 to-blue-200/50",
+                        "bg-gradient-to-br from-cyan-200/45 via-blue-200/35 to-indigo-200/45",
                       ][cloud.id % 6]
                 }`}
                 style={{
@@ -114,20 +114,20 @@ export function CottonCloudBackground() {
               <div
                 key={`medium-${i}`}
                 className={`absolute blur-2xl ${
-                  theme === "dark" ? "opacity-35" : "opacity-45"
+                  theme === "dark" ? "opacity-25" : "opacity-35"
                 } ${
                   theme === "dark"
                     ? [
-                        "bg-gradient-to-r from-violet-400/30 to-purple-400/25",
-                        "bg-gradient-to-r from-cyan-400/25 to-blue-400/30",
-                        "bg-gradient-to-r from-pink-400/30 to-violet-400/25",
-                        "bg-gradient-to-r from-indigo-400/25 to-cyan-400/30",
+                        "bg-gradient-to-r from-slate-500/25 to-gray-500/20",
+                        "bg-gradient-to-r from-gray-500/20 to-slate-500/25",
+                        "bg-gradient-to-r from-slate-600/25 to-gray-600/20",
+                        "bg-gradient-to-r from-gray-600/20 to-slate-600/25",
                       ][i % 4]
                     : [
-                        "bg-gradient-to-r from-blue-200/45 to-purple-200/45",
-                        "bg-gradient-to-r from-purple-200/40 to-pink-200/40",
-                        "bg-gradient-to-r from-indigo-200/45 to-blue-200/45",
-                        "bg-gradient-to-r from-pink-200/40 to-indigo-200/40",
+                        "bg-gradient-to-r from-blue-200/35 to-purple-200/35",
+                        "bg-gradient-to-r from-purple-200/30 to-pink-200/30",
+                        "bg-gradient-to-r from-indigo-200/35 to-blue-200/35",
+                        "bg-gradient-to-r from-pink-200/30 to-indigo-200/30",
                       ][i % 4]
                 }`}
                 style={{
@@ -156,11 +156,11 @@ export function CottonCloudBackground() {
               <div
                 key={`small-${i}`}
                 className={`absolute blur-xl ${
-                  theme === "dark" ? "opacity-25" : "opacity-35"
+                  theme === "dark" ? "opacity-20" : "opacity-25"
                 } ${
                   theme === "dark"
-                    ? "bg-gradient-to-br from-violet-400/20 via-purple-400/15 to-cyan-400/18"
-                    : "bg-gradient-to-br from-blue-200/35 via-purple-200/30 to-pink-200/35"
+                    ? "bg-gradient-to-br from-slate-500/15 via-gray-500/12 to-slate-600/18"
+                    : "bg-gradient-to-br from-blue-200/25 via-purple-200/20 to-pink-200/25"
                 }`}
                 style={{
                   width: `${size}px`,

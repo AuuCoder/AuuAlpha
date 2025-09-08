@@ -11,13 +11,13 @@ import {
 import IsLogin from "@/components/isLogin";
 import { useRef } from "react";
 import { Button } from "@heroui/button";
-import { useTheme } from "next-themes";
 import NextLink from "next/link";
 import { useAccount, useDisconnect } from "wagmi";
 import { modal } from "@/components/appkitProvider";
 import { ThemeSwitch } from "@/components/theme-switch";
 import LanguageSwitcher from "@/components/LangSwitch";
 import { Logo } from "@/components/icons";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 export const Navbar = () => {
@@ -25,7 +25,6 @@ export const Navbar = () => {
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const ref = useRef<HTMLButtonElement>(null);
-  const { theme } = useTheme();
   const handleClick = () => {
     if (isConnected) {
       disconnect();
@@ -35,7 +34,7 @@ export const Navbar = () => {
   };
   return (
     <HeroUINavbar
-      maxWidth="2xl"
+      maxWidth="full"
       position="sticky"
       className="backdrop-blur-sm bg-transparent border-none"
       style={{ backgroundColor: "transparent" }}
@@ -43,7 +42,7 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo color={theme === "dark" ? "white" : "black"} />
+            <Image src="/favicon.ico" alt="logo" width={32} height={32} />
           </NextLink>
         </NavbarBrand>
       </NavbarContent>

@@ -8,7 +8,7 @@ interface AuthState {
     setToken: (token: string | null) => void;
     setAddress: (address: string | null) => void;
     setChainId: (chainId: number | null) => void;
-    clearAuth: () => void; // 新增
+    clearAuth: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
